@@ -23,6 +23,13 @@ class KnowledgeBase(object):
         Args:
             fact (Fact or Rule): Fact or Rule we're asserting in the format produced by read.py
         """
+        flag = True
+        if isinstance(fact, Fact):
+            for f in self.facts:
+                if fact == f:
+                    flag = False
+            if flag:
+                self.facts.append(fact)
         print("Asserting {!r}".format(fact))
         
     def kb_ask(self, fact):
@@ -34,4 +41,12 @@ class KnowledgeBase(object):
         Returns:
             ListOfBindings|False - ListOfBindings if result found, False otherwise
         """
+
         print("Asking {!r}".format(fact))
+        lob = ListOfBindings()
+        for f in self.facts:
+            binding = match(fact.statement, f.statement)
+            if binding:
+                lob.add_bindings(binding)
+
+        return lob
