@@ -47,6 +47,6 @@ class KnowledgeBase(object):
         for f in self.facts:
             binding = match(fact.statement, f.statement)
             if binding:
-                lob.add_bindings(binding)
+                lob.add_bindings(binding, [f])
 
         return lob
